@@ -30,11 +30,11 @@ jobs:
       #   run: npm run build
       - name: test
         run: npm test
-        # env:
-        #   TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-        #   PORT: ${{ secrets.PORT }}
-        #   SECRET: ${{ secrets.SECRET }}
-        #   TEST: ${{ secrets.TEST }}
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          PORT: ${{ secrets.PORT }}
+          SECRET: ${{ secrets.SECRET }}
+          TEST: ${{ secrets.TEST }}
 
       - name: e2e tests
         # https://github.com/cypress-io/github-action

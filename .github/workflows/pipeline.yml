@@ -33,14 +33,14 @@ jobs:
 
 
 
-      # - name: e2e tests
-      #   # https://github.com/cypress-io/github-action
-      #   uses: cypress-io/github-action@v2
-      #   with:
-      #     command: npm run test:e2e
-      #     start: npm run start-prod
-      #     # wait for the server to start: https://github.com/cypress-io/github-action
-      #     wait-on: http://localhost:5000
+      - name: e2e tests
+        # https://github.com/cypress-io/github-action
+        uses: cypress-io/github-action@v2
+        with:
+          command: npm run test:e2e
+          start: npm run start:test
+          # wait for the server to start: https://github.com/cypress-io/github-action
+          wait-on: http://localhost:3001
 
 
 

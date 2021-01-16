@@ -24,7 +24,7 @@ blogsRouter.get('/', async (request, response) => {
 
 
 blogsRouter.post('/', async (request, response) => {
-    body = request.body
+    const body = request.body
 
     // Making sure that only logged in users can create new notes
     const token = request.token
@@ -94,7 +94,7 @@ blogsRouter.put('/:id', async (request, response) => {
 
     // If ID is not valid in Mongo:
     /*     if (!request.params.id.match(/^[0-9a-fA-F]{24}$/)) {
-    
+
             return response.status(400).json({ error: 'Invalid ID' })
         } */
 
@@ -135,8 +135,8 @@ blogsRouter.delete('/:id', async (request, response) => {
         return response.status(401).json({ error: 'only the author of the blog can delete it' })
     }
 
-    await Blog.findByIdAndRemove(request.params.id)    
-   
+    await Blog.findByIdAndRemove(request.params.id)
+
     response.status(204).end()
 })
 

@@ -18,15 +18,12 @@ jobs:
           node-version: "12.x"
       - name: npm install
         run: npm install
-      # - name: lint
-      #   run: npm run eslint
+      - name: lint
+        run: npm run lint
       # - name: build
       #   run: npm run build
       - name: test
-        # run: npm test
-        run: |
-          npm test
-          echo 'Github secret: ${{ secrets.SECRETS_SECRET }}'
+        run: npm test
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           PORT: ${{ secrets.PORT }}

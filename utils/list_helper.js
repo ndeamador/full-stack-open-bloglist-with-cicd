@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const dummy = (blogs) => {
     return 1
 }
@@ -91,14 +93,14 @@ const mostLikes = (blogs) => {
     if (blogsWithAddedLikes.length === 0) {
         return blogsWithAddedLikes
     } else {
-        const highestLikes = Math.max(...blogsWithAddedLikes.map(blog => blog.likes)) 
+        const highestLikes = Math.max(...blogsWithAddedLikes.map(blog => blog.likes))
         // console.log('highestLikes:', highestLikes) //comment
-    
+
         const mostLikedAuthor = blogsWithAddedLikes.find(blog => blog.likes === highestLikes)
         // console.log('mostLikedAuthor :', mostLikedAuthor) //comment
-    
+
         return mostLikedAuthor
-    }    
+    }
 }
 
 module.exports = {

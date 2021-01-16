@@ -1,4 +1,4 @@
-mostLikes = require('../utils/list_helper').mostLikes
+const mostLikes = require('../utils/list_helper').mostLikes
 
 describe('mostLikes', () => {
 
@@ -29,7 +29,7 @@ describe('mostLikes', () => {
         const results = mostLikes(emptyList)
         // expect(results).toEqual({ author: "Edsger W. Dijkstra", likes: 17 })
         // expect(results).toBe(undefined)
-        expect(results).toEqual([])        
+        expect(results).toEqual([])
 
 
     })

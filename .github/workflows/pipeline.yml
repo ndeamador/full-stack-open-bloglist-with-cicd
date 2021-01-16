@@ -8,6 +8,12 @@ on:
     branches: [master]
     types: [opened, synchronize]
 
+env:
+  TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+  PORT: ${{ secrets.PORT }}
+  SECRET: ${{ secrets.SECRET }}
+  TEST: ${{ secrets.TEST }}
+
 jobs:
   pipeline:
     runs-on: ubuntu-18.04
@@ -18,34 +24,26 @@ jobs:
           node-version: "12.x"
       - name: npm install
         run: npm install
-      # - name: lint
-      #   run: npm run eslint
+      - name: lint
+        run: npm run lint
       # - name: build
       #   run: npm run build
       - name: test
-        # run: npm test
-        run: |
-          npm test
-          echo 'Github secret: ${{ secrets.SECRETS_SECRET }}'
-        env:
-          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-          PORT: ${{ secrets.PORT }}
-          SECRET: ${{ secrets.SECRET }}
-          TEST: ${{ secrets.TEST }}
+        run: npm test
+        # env:
+        #   TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+        #   PORT: ${{ secrets.PORT }}
+        #   SECRET: ${{ secrets.SECRET }}
+        #   TEST: ${{ secrets.TEST }}
 
-
-
-
-      # - name: e2e tests
-      #   # https://github.com/cypress-io/github-action
-      #   uses: cypress-io/github-action@v2
-      #   with:
-      #     command: npm run test:e2e
-      #     start: npm run start-prod
-      #     # wait for the server to start: https://github.com/cypress-io/github-action
-      #     wait-on: http://localhost:5000
-
-
+      - name: e2e tests
+        # https://github.com/cypress-io/github-action
+        uses: cypress-io/github-action@v2
+        with:
+          command: npm run test:e2e
+          start: npm run start:test
+          # wait for the server to start: https://github.com/cypress-io/github-action
+          wait-on: http://localhost:3001
 
       # # third party notification action (action-slack: https://github.com/marketplace/actions/action-slack)
       # - uses: 8398a7/action-slack@b6a4c791ce0c137843eb11e038f855cf567014dc
@@ -72,23 +70,21 @@ jobs:
       #   env:
       #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
 
-  # versioning:
-  #   runs-on: ubuntu-18.04
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v1
-  #       with:
-  #         node-version: "12.x"
-  #     # The following step increases the version when a pull request is merged and tag the release with a version number.
-  #     - name: Bump version and push tag
-  #       uses: anothrNick/github-tag-action@eca2b69f9e2c24be7decccd0f15fdb1ea5906598 # the string after the @ is the version hash in the third party library, specified in order to prevent issues in case the contents of the numbered version are changed. https://fullstackopen.com/en/part11/keeping_green#a-note-about-using-third-party-actions
-  #       if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip')}}
-  #       env:
-  #         # because github-tag-action is third party, we need to provide the token for authentication in the repository.
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         DEFAULT_BUMP: patch
-
-
+  versioning:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      # The following step increases the version when a pull request is merged and tag the release with a version number.
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@eca2b69f9e2c24be7decccd0f15fdb1ea5906598 # the string after the @ is the version hash in the third party library, specified in order to prevent issues in case the contents of the numbered version are changed. https://fullstackopen.com/en/part11/keeping_green#a-note-about-using-third-party-actions
+        if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip')}}
+        env:
+          # because github-tag-action is third party, we need to provide the token for authentication in the repository.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
 
   Logs:
     runs-on: ubuntu-18.04

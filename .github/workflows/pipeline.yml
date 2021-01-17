@@ -26,8 +26,6 @@ jobs:
         run: npm install
       - name: lint
         run: npm run lint
-      # - name: build
-      #   run: npm run build
       - name: test
         run: npm test
         env:
@@ -35,7 +33,6 @@ jobs:
           PORT: ${{ secrets.PORT }}
           SECRET: ${{ secrets.SECRET }}
           TEST: ${{ secrets.TEST }}
-
       - name: e2e tests
         # https://github.com/cypress-io/github-action
         uses: cypress-io/github-action@v2
@@ -44,31 +41,6 @@ jobs:
           start: npm run start:test
           # wait for the server to start: https://github.com/cypress-io/github-action
           wait-on: http://localhost:3001
-
-      # # third party notification action (action-slack: https://github.com/marketplace/actions/action-slack)
-      # - uses: 8398a7/action-slack@b6a4c791ce0c137843eb11e038f855cf567014dc
-      #   if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') && success()}}
-      #   with:
-      #     status: custom
-      #     fields: commit,author,took # selectable (default: repo,message). Check https://action-slack.netlify.app/fields
-      #     custom_payload: |
-      #       {
-      #         attachments: [{
-      #           color: 'good',
-      #           title: 'Successful Heroku Deployment',
-      #           text: `A new version deployed to https://ndeamador-fso2020-pokedex.herokuapp.com/ (${process.env.AS_COMMIT}) by ${process.env.AS_AUTHOR}\nBuild took ${process.env.AS_TOOK}`
-      #         }]
-      #       }
-      #   env:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
-      # # failure notification (not custom):
-      # - uses: 8398a7/action-slack@b6a4c791ce0c137843eb11e038f855cf567014dc
-      #   if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') && (failure() || cancelled()) }}
-      #   with:
-      #     status: ${{ job.status }}
-      #     fields: repo,message,commit,author,took # selectable (default: repo,message). Check https://action-slack.netlify.app/fields
-      #   env:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
 
   versioning:
     runs-on: ubuntu-18.04

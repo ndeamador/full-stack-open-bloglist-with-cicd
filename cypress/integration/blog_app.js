@@ -59,7 +59,7 @@ describe('Blog app', function () {
   // To run a single test we can use it.only instead of it.
 
   // describe('When logged in', function () {
-  describe.only('When logged in', function () {
+  describe('When logged in', function () {
 
     beforeEach(function () {
       // delete any users saved in local storage.
